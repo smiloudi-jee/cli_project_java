@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.formation</groupId>
+    <artifactId>mcp-chat-java</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>MCP Chat (Java)</name>
+    <description>
+        Conversion Java de l'exercice "MCP Chat" (Introduction to Model Context Protocol).
+        Client CLI de chat Anthropic avec integration MCP (resources, prompts, tools).
+    </description>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <anthropic-java.version>2.40.1</anthropic-java.version>
+        <mcp-java-sdk.version>2.0.0</mcp-java-sdk.version>
+        <jline.version>3.26.3</jline.version>
+        <dotenv-java.version>3.2.0</dotenv-java.version>
+
+        <exec-maven-plugin.version>3.2.0</exec-maven-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-dependency-plugin.version>3.7.1</maven-dependency-plugin.version>
+    </properties>
+
+    <dependencies>
+        <!-- Anthropic Claude API SDK -->
+        <dependency>
+            <groupId>com.anthropic</groupId>
+            <artifactId>anthropic-java</artifactId>
+            <version>${anthropic-java.version}</version>
+        </dependency>
+
+        <!-- MCP Java SDK (client + server, transport stdio, JSON Jackson3) -->
+        <dependency>
+            <groupId>io.modelcontextprotocol.sdk</groupId>
+            <artifactId>mcp</artifactId>
+            <version>${mcp-java-sdk.version}</version>
+        </dependency>
+
+        <!-- JLine : boucle CLI interactive avec auto-completion (equivalent de prompt-toolkit) -->
+        <dependency>
+            <groupId>org.jline</groupId>
+            <artifactId>jline</artifactId>
+            <version>${jline.version}</version>
+        </dependency>
+
+        <!-- Chargement du fichier .env -->
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>${dotenv-java.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>mcp-chat</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <release>21</release>
+                </configuration>
+            </plugin>
+
+            <!-- Permet de lancer l'application avec : mvn compile exec:java -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-maven-plugin.version}</version>
+                <configuration>
+                    <mainClass>com.formation.mcpchat.Main</mainClass>
+                </configuration>
+            </plugin>
+
+            <!--
+                mvn exec:java ne renseigne pas entièrement le classpath système (-cp), donc quand Main.java,
+                qui relance un sous-processus pour le serveur MCP, il ne trouve pas les bonnes classes dans le classPath
+                et plante en silence (timeout).
+
+                On aurait pu contourner ça en changeant de mode de lancement (exec:exec), mais ça n'aurait fait que déplacer le problème.
+                Car exec:exec fait passer l'interactivité par des flux redirigés au lieu du vrai terminal, ce qui casserait JLine.
+
+                On a préféré écrire le classpath dans un fichier txt que Main.java lit lui-même, c'est plus simple et plus fiable et surtout portable.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven-dependency-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>build-classpath</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>build-classpath</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>${project.build.directory}/classpath.txt</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
