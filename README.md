@@ -120,3 +120,16 @@ Aucun outil de lint/format n'est configure (equivalent au projet Python d'origin
 - prompt-toolkit n'existe pas en Java : la boucle interactive et l'auto-completion `/` et `@` sont reproduites avec **JLine**.
 - python-dotenv est remplacé par **dotenv-java**.
 - Le serveur MCP (`McpServerApp`) est lancé comme sous-processus Java avec son classpath materialise dans `target/classpath.txt`, ce qui évite d'avoir à gérer deux artefacts sépares (equivalent de `uv run mcp_server.py`).
+
+## 📌 Correction de l'exercice disponible
+
+L'implémentation complète de l'exercice MCP Chat (Java) avec tous les TODOs de McpServerApp.java et MCPClient.java résolus (tools, resources, resource templates, prompts) se trouve sur la branche solved du dépôt.
+
+Pour la récupérer :
+
+```
+git fetch origin
+git checkout solved
+```
+
+N'hésitez pas à comparer votre implémentation avec celle-ci une fois vos TODOs terminés, plutôt que de vous en servir avant d'avoir essayé par vous-même.
