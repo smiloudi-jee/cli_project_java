@@ -14,7 +14,7 @@ Application en ligne de commande permettant de discuter avec un modele Claude vi
 
 ### Etape 1 : variables d'environnement
 
-Editez le fichier `.env` a la racine du projet :
+Créer le fichier `.env` a la racine du projet :
 
 ```
 CLAUDE_MODEL="claude-sonnet-4-5"
