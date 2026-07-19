@@ -1,0 +1,33 @@
+<svg viewBox="0 0 1000 440" xmlns="http://www.w3.org/2000/svg">
+  <rect x="15" y="0" width="975" height="130" rx="24" fill="#DFCEA3"/>
+  <rect x="15" y="135" width="975" height="115" rx="24" fill="#D0906B"/>
+  <rect x="15" y="255" width="975" height="165" rx="24" fill="#BE6F52"/>
+
+  <!-- Tools -->
+  <text x="30" y="30" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#1a1208">Tools</text>
+  <text x="30" y="60" font-weight="bold" font-family="Georgia, 'Times New Roman', serif" font-size="19" fill="#1a1208">Contrôlé par le modèle : </text>
+  <text x="30" y="90" font-family="Georgia, 'Times New Roman', serif" font-size="19" fill="#1a1208">
+    <tspan x="30" dy="0" >&#8226; <tspan font-weight="bold">Claude</tspan> décide quand les appeler, et utilise directement les résultats </tspan>
+  </text>
+  <text x="30" y="120" font-family="Georgia, 'Times New Roman', serif" font-size="19" fill="#1a1208">&#8226; Utilisé pour : Donner des fonctionnalités supplémentaires à Claude</text>
+
+  <!-- Resources -->
+  <text x="30" y="170" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#1a1208">Resources</text>
+  <text x="30" y="185" font-family="Georgia, 'Times New Roman', serif" font-size="19" fill="#1a1208">
+    <tspan x="30" dy="10" font-weight="bold">Contrôlé par l'application :</tspan>
+    <tspan> <tspan x="30" dy="25" font-weight="bold">&#8226; L'application Cliente</tspan> décide quand les appeler et utilise les résultats</tspan>
+  </text>
+  <text x="30" y="245" font-family="Georgia, 'Times New Roman', serif" font-size="19" fill="#1a1208">&#8226; Utilisé pour : Charger des données et Ajouter du contexte aux messages</text>
+
+  <!-- Prompts -->
+  <text x="30" y="285" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#1a1208">Prompts</text>
+  <text x="30" y="310" font-family="Georgia, 'Times New Roman', serif" font-size="19" fill="#1a1208">
+    <tspan x="30" dy="0" font-weight="bold">Contrôlé par l'utilisateur : il décide quand les déclencher.</tspan>
+  </text>
+  <text x="30" y="340" font-family="Georgia, 'Times New Roman', serif" font-size="19" fill="#1a1208">
+    <tspan>Utilisé pour des workflows à exécuter à la demande de l'utilisateur : </tspan>
+  </text>
+  <text x="30" y="365" font-family="Georgia, 'Times New Roman', serif" font-size="19" fill="#1a1208">&#8226; Une commande slash</text>
+  <text x="30" y="390" font-family="Georgia, 'Times New Roman', serif" font-size="19" fill="#1a1208">&#8226; Un clic de bouton</text>
+  <text x="30" y="410" font-family="Georgia, 'Times New Roman', serif" font-size="19" fill="#1a1208">&#8226; Une option de menu</text>
+</svg>
