@@ -66,6 +66,9 @@ public class CliChat extends Chat {
                 mentions.add(word.substring(1));
             }
         }
+        if (mentions.isEmpty()) {
+            return "";
+        }
 
         List<String> docIds = listDocIds();
         StringBuilder builder = new StringBuilder();
@@ -89,7 +92,7 @@ public class CliChat extends Chat {
         String command = words[0].replace("/", "");
         String docId = words.length > 1 ? words[1] : "";
 
-        McpSchema.GetPromptResult promptResult = docClient.getPrompt(command, Map.of("doc_id", docId));
+        McpSchema.GetPromptResult promptResult = getPrompt(command, docId);
         messages.addAll(convertPromptMessagesToMessageParams(promptResult.messages()));
         return true;
     }

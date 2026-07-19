@@ -28,6 +28,8 @@
         <exec-maven-plugin.version>3.2.0</exec-maven-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.7.1</maven-dependency-plugin.version>
+        <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
+        <slf4j.version>2.0.16</slf4j.version>
     </properties>
 
     <dependencies>
@@ -57,6 +59,19 @@
             <groupId>io.github.cdimascio</groupId>
             <artifactId>dotenv-java</artifactId>
             <version>${dotenv-java.version}</version>
+        </dependency>
+
+        <!--
+            Implementation SLF4J : le SDK MCP (et Reactor) loggent via SLF4J en interne.
+            Sans implementation sur le classpath, ces logs sont silencieusement perdus
+            (logger "no-op") -> warnings "No SLF4J providers were found" au demarrage.
+            slf4j-simple ecrit sur System.err par defaut, donc ca ne pollue pas le canal
+            stdout utilise par le transport stdio MCP.
+        -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
 
@@ -105,6 +120,33 @@
                         </goals>
                         <configuration>
                             <outputFile>${project.build.directory}/classpath.txt</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+                Build du Mcp-Chat-Server jar, afin de pouvoir lancer le MCP Inspector, sans se soucier du classpath.
+                Génère target/mcp-chat-server.jar via `mvn clean package`. Voir le Readme pour son utilisation
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${maven-shade-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>shade-mcp-server</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>mcp-chat-server</finalName>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.formation.mcpchat.McpServerApp</mainClass>
+                                </transformer>
+                            </transformers>
                         </configuration>
                     </execution>
                 </executions>

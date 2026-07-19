@@ -95,8 +95,14 @@ public class Cli {
                 continue;
             }
 
-            String response = agent.run(userInput);
-            System.out.println("\nResponse:\n" + response);
+            // Une exception ici (commande /xxx inconnue, erreur MCP, appel API en échec, etc.)
+            // ne doit pas faire planter toute la session : on l'affiche et on reprend la boucle.
+            try {
+                String response = agent.run(userInput);
+                System.out.println("\nResponse:\n" + response);
+            } catch (Exception e) {
+                System.out.println("\nErreur : " + e.getMessage());
+            }
         }
     }
 

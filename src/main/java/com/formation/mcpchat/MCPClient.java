@@ -5,13 +5,13 @@ import io.modelcontextprotocol.client.McpSyncClient;
 import io.modelcontextprotocol.client.transport.ServerParameters;
 import io.modelcontextprotocol.client.transport.StdioClientTransport;
 import io.modelcontextprotocol.json.McpJsonDefaults;
+import io.modelcontextprotocol.spec.McpSchema;
 import io.modelcontextprotocol.spec.McpSchema.CallToolResult;
 import io.modelcontextprotocol.spec.McpSchema.GetPromptResult;
 import io.modelcontextprotocol.spec.McpSchema.Prompt;
 import io.modelcontextprotocol.spec.McpSchema.ReadResourceResult;
 import io.modelcontextprotocol.spec.McpSchema.Tool;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -63,28 +63,33 @@ public class MCPClient implements AutoCloseable {
     }
 
     public List<Tool> listTools() {
-        // TODO: Return a list of tools defined by the MCP server
-        return Collections.emptyList();
+        return session().listTools().tools();
     }
 
     public CallToolResult callTool(String toolName, Map<String, Object> toolInput) {
-        // TODO: Call a particular tool and return the result
-        return null;
+        return session().callTool(
+                McpSchema.CallToolRequest.builder(toolName).arguments(toolInput).build());
     }
 
     public List<Prompt> listPrompts() {
-        // TODO: Return a list of prompts defined by the MCP server
-        return Collections.emptyList();
+        return session().listPrompts().prompts();
     }
 
-    public GetPromptResult getPrompt(String promptName, Map<String, String> args) {
-        // TODO: Get a particular prompt defined by the MCP server
-        return null;
+    public GetPromptResult getPrompt(String promptName, Map<String, Object> args) {
+        return session().getPrompt(
+                McpSchema.GetPromptRequest.builder(promptName).arguments(args).build());
+    }
+
+    public List<McpSchema.Resource> listResources() {
+        return session().listResources().resources();
+    }
+
+    public List<McpSchema.ResourceTemplate> listResourceTemplates() {
+        return session().listResourceTemplates().resourceTemplates();
     }
 
     public ReadResourceResult readResource(String uri) {
-        // TODO: Read a resource, parse the contents and return it
-        return ReadResourceResult.builder(Collections.emptyList()).build();
+        return session().readResource(McpSchema.ReadResourceRequest.builder(uri).build());
     }
 
     public void cleanup() {
@@ -99,10 +104,35 @@ public class MCPClient implements AutoCloseable {
         cleanup();
     }
 
-    // For testing
+    // Pour tester manuellement la connexion et les opérations MCP (tools, resources, prompts)
+    // sans passer par l'application complète, nous pouvons lancer ce 'main' directement depuis l'IDE.
     public static void main(String[] args) {
         try (MCPClient testClient = buildMCPClient()) {
             testClient.connect();
+
+            List<Tool> tools = testClient.listTools();
+            System.out.println("Tools exposés par le serveur (" + tools.size() + ") :");
+            for (Tool tool : tools) {
+                System.out.println(" - " + tool.name() + " : " + tool.description());
+            }
+
+            List<McpSchema.Resource> resources = testClient.listResources();
+            System.out.println("Resource concrète : " + resources.size());
+            for (McpSchema.Resource content : resources) {
+                System.out.println(" - " + content);
+            }
+
+            List<McpSchema.ResourceTemplate> resourceTemplates = testClient.listResourceTemplates();
+            System.out.println("Resource templates : " + resourceTemplates.size());
+            for (McpSchema.ResourceTemplate template : resourceTemplates) {
+                System.out.println(" - " + template);
+            }
+
+            List<Prompt> prompts = testClient.listPrompts();
+            System.out.println("Prompts exposés par le serveur (" + prompts.size() + ") :");
+            for (Prompt prompt : prompts) {
+                System.out.println(" - " + prompt.name() + " : " + prompt.description());
+            }
         }
     }
 

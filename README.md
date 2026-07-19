@@ -1,33 +1,33 @@
 # MCP Chat (Java)
 
-Conversion Java de l'exercice Python "MCP Chat" (cours *Introduction to Model Context Protocol*).
+Version Java de l'exercice Python "MCP Chat" (cours *Introduction to Model Context Protocol*).
 
-Application en ligne de commande permettant de discuter avec un modele Claude via l'API Anthropic, avec recuperation de documents, prompts commandes et outils exposes via un serveur MCP (Model Context Protocol).
+Application en ligne de commande permettant de discuter avec un modèle Claude via l'API Anthropic, avec recuperation de documents, prompts commandes et outils exposés via un serveur MCP (Model Context Protocol).
 
-## Prerequis
+## Prérequis
 
-- JDK 17+
+- JDK 21+
 - Maven 3.9+
 - Une cle API Anthropic
 
 ## Mise en place
 
-### Etape 1 : variables d'environnement
+### Étape 1 : variables d'environnement
 
-Editez le fichier `.env` a la racine du projet :
+Créer le fichier `.env` a la racine du projet :
 
 ```
 CLAUDE_MODEL="claude-sonnet-4-5"
-ANTHROPIC_API_KEY=""   # Renseignez votre cle secrete Anthropic
+ANTHROPIC_API_KEY=""   # Renseignez votre clé secrete Anthropic
 ```
 
-### Etape 2 : compiler le projet
+### Étape 2 : compiler le projet
 
 ```
 mvn clean compile
 ```
 
-### Etape 3 : lancer le projet
+### Étape 3 : lancer le projet
 
 ```
 mvn exec:java ou mvn clean compile exec:java (si l'étape 2 n'a pas été exécuté)
@@ -64,13 +64,42 @@ Utilisez le symbole `@` suivi d'un identifiant de document pour inclure son cont
 
 ### Commandes
 
-Utilisez le prefixe `/` pour executer une commande definie par le serveur MCP :
+Utilisez le préfixe `/` pour executer une commande définie par le serveur MCP :
 
 ```
 > /summarize deposition.md
 ```
 
-Les commandes s'auto-completent quand vous appuyez sur Tab (via JLine, l'equivalent Java de prompt-toolkit).
+Les commandes s'auto-complètent quand vous appuyez sur Tab (via JLine, l'équivalent Java de prompt-toolkit).
+
+## Les trois primitives MCP
+
+Chaque primitive du serveur MCP est contrôlée par une couche différente de l'application, et sert un objectif différent :
+
+- **Tools** — contrôlés par le modèle. C'est Claude qui décide, pendant son raisonnement, s'il a besoin d'appeler tel tool pour accomplir une tâche (ex. `read_doc_contents`, `modify_doc_contents`).
+- **Resources** — contrôlées par l'application cliente. C'est le code du client (`CliChat`) qui décide quand aller chercher une resource, typiquement pour peupler l'autocomplétion ou enrichir un prompt de contexte avant l'envoi à Claude (ex. `docs://documents`, `docs://documents/{doc_id}`).
+- **Prompts** — contrôlés par l'utilisateur. Ce sont des workflows prédéfinis déclenchés explicitement via une action utilisateur, comme nos commandes `/format` et `/summarize`.
+
+En résumé : les tools servent le modèle, les resources servent l'application, les prompts servent l'utilisateur.
+
+![Les trois primitives MCP : Tools, Resources, Prompts](docs/mcp-primitives.svg)
+
+## Tests et Débogage avec MCP Inspector
+
+[MCP Inspector](https://github.com/modelcontextprotocol/inspector) est indépendant du langage : il lance
+le serveur comme process enfant et communique en JSON-RPC via stdio, ce qui fonctionne aussi bien avec
+`McpServerApp` qu'avec un serveur Python ou Node.
+
+Un jar exécutable (avec toutes les dépendances incluses) est généré via le plugin `maven-shade-plugin`,
+ce qui évite les soucis de classpath :
+
+```
+mvn clean package
+npx @modelcontextprotocol/inspector java -jar target/mcp-chat-server.jar
+```
+
+L'UI de l'Inspector s'ouvre sur `http://localhost:6274` : vous pouvez y lister et appeler individuellement
+les tools, resources et prompts du serveur, sans passer par le client CLI complet. Pratique pour tester
 
 ## Structure du projet
 
@@ -90,18 +119,18 @@ cli_project_java/
 │       └── Cli.java           (equivalent de core/cli.py)
 ```
 
-## Developpement
+## Développement
 
 ### Ajouter de nouveaux documents
 
-Editez `McpServerApp.java` pour ajouter des documents dans la Map `DOCS`.
+Éditez `McpServerApp.java` pour ajouter des documents dans la Map `DOCS`.
 
-### Implementer les fonctionnalites MCP
+### Implementer les fonctionnalités MCP
 
-Pour terminer l'implementation du protocole MCP :
+Pour terminer l'implémentation du protocole MCP :
 
-1. Completez les TODOs dans `McpServerApp.java` (outils, resources, prompts cote serveur)
-2. Completez les TODOs dans `MCPClient.java` (appels au serveur cote client)
+1. Complétez les TODOs dans `McpServerApp.java` (outils, resources, prompts côté serveur)
+2. Complétez les TODOs dans `MCPClient.java` (appels au serveur cote client)
 
 ### Dependances principales
 
@@ -112,7 +141,7 @@ Pour terminer l'implementation du protocole MCP :
 
 ### Lint et verification de types
 
-Aucun outil de lint/format n'est configure (equivalent au projet Python d'origine). La verification de types est assuree nativement par le compilateur Java.
+Aucun outil de lint/format n'est configuré (equivalent au projet Python d'origine). La verification de types est assurée nativement par le compilateur Java.
 
 ## Notes sur la conversion depuis Python
 

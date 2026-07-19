@@ -29,10 +29,10 @@ public class ToolManager {
         for (MCPClient client : clients.values()) {
             for (McpSchema.Tool mcpTool : client.listTools()) {
                 tools.add(Tool.builder()
-                        .name(mcpTool.name())
-                        .description(mcpTool.description())
-                        .inputSchema(toAnthropicInputSchema(mcpTool.inputSchema()))
-                        .build());
+                    .name(mcpTool.name())
+                    .description(mcpTool.description())
+                    .inputSchema(toAnthropicInputSchema(mcpTool.inputSchema()))
+                    .build());
             }
         }
         return tools;
@@ -48,7 +48,7 @@ public class ToolManager {
                 Tool.InputSchema.Properties.Builder propsBuilder = Tool.InputSchema.Properties.builder();
                 for (Map.Entry<?, ?> entry : propsMap.entrySet()) {
                     propsBuilder.putAdditionalProperty(
-                            String.valueOf(entry.getKey()), JsonValue.from(entry.getValue()));
+                        String.valueOf(entry.getKey()), JsonValue.from(entry.getValue()));
                 }
                 schemaBuilder.properties(propsBuilder.build());
             }
@@ -59,7 +59,6 @@ public class ToolManager {
                 schemaBuilder.required(required);
             }
         }
-
         return schemaBuilder.build();
     }
 
@@ -78,10 +77,10 @@ public class ToolManager {
     /** Construit un bloc de contenu de type tool_result (API tool-use). */
     private static ContentBlockParam buildToolResultPart(String toolUseId, String text, boolean isError) {
         return ContentBlockParam.ofToolResult(ToolResultBlockParam.builder()
-                .toolUseId(toolUseId)
-                .content(ToolResultBlockParam.Content.ofString(text))
-                .isError(isError)
-                .build());
+            .toolUseId(toolUseId)
+            .content(ToolResultBlockParam.Content.ofString(text))
+            .isError(isError)
+            .build());
     }
 
     /** Execute chaque demande "tool_use" trouvée dans une réponse du modèle et retourne les blocs tool_result. */
@@ -90,8 +89,8 @@ public class ToolManager {
         List<ContentBlockParam> results = new ArrayList<>();
 
         List<ToolUseBlock> toolRequests = message.content().stream()
-                .flatMap(block -> block.toolUse().stream())
-                .toList();
+            .flatMap(block -> block.toolUse().stream())
+            .toList();
 
         for (ToolUseBlock toolRequest : toolRequests) {
             String toolUseId = toolRequest.id();
@@ -110,9 +109,9 @@ public class ToolManager {
                 boolean isError = false;
                 if (toolOutput != null) {
                     List<String> texts = toolOutput.content().stream()
-                            .filter(item -> item instanceof McpSchema.TextContent)
-                            .map(item -> ((McpSchema.TextContent) item).text())
-                            .toList();
+                        .filter(item -> item instanceof McpSchema.TextContent)
+                        .map(item -> ((McpSchema.TextContent) item).text())
+                        .toList();
                     content = texts.toString();
                     isError = Boolean.TRUE.equals(toolOutput.isError());
                 }
@@ -123,7 +122,6 @@ public class ToolManager {
                 results.add(buildToolResultPart(toolUseId, errorMessage, true));
             }
         }
-
         return results;
     }
 }
