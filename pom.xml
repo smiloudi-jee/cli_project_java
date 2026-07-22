@@ -20,10 +20,12 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <anthropic-java.version>2.40.1</anthropic-java.version>
+        <anthropic-java.version>2.49.0</anthropic-java.version>
         <mcp-java-sdk.version>2.0.0</mcp-java-sdk.version>
         <jline.version>3.26.3</jline.version>
         <dotenv-java.version>3.2.0</dotenv-java.version>
+
+        <javaparser.version>3.26.2</javaparser.version>
 
         <exec-maven-plugin.version>3.2.0</exec-maven-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
@@ -52,6 +54,13 @@
             <groupId>org.jline</groupId>
             <artifactId>jline</artifactId>
             <version>${jline.version}</version>
+        </dependency>
+
+        <!-- JavaParser : utilisé par SyntaxGrader pour valider la syntaxe des sorties au format "java" -->
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-core</artifactId>
+            <version>${javaparser.version}</version>
         </dependency>
 
         <!-- Chargement du fichier .env -->

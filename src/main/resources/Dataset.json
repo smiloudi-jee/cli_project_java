@@ -1,0 +1,13 @@
+[ {
+  "task" : "Parse an AWS S3 bucket name and object key from an S3 URI in the format 's3://bucket-name/path/to/object'",
+  "format" : "regex",
+  "solution_criteria" : "The regex should correctly extract the bucket name and object key as separate groups. It should handle bucket names with hyphens and dots, and object keys with multiple path segments."
+}, {
+  "task" : "Create a JSON configuration object for an AWS Lambda function that includes function name, runtime (nodejs18.x), memory (256 MB), timeout (30 seconds), and environment variables for API_KEY and REGION",
+  "format" : "json",
+  "solution_criteria" : "The JSON should have valid syntax, include all specified fields with correct data types, and follow AWS Lambda configuration conventions."
+}, {
+  "task" : "Write a Java method that takes an AWS DynamoDB item as a Map<String, AttributeValue> and returns a formatted string representation with attribute names and their string values",
+  "format" : "java",
+  "solution_criteria" : "The method should iterate through the map, handle the AttributeValue conversion to String, and produce readable output. It should handle null values gracefully."
+} ]
