@@ -17,7 +17,7 @@ public class FirstPrompt extends AbstractClaudeConversation {
                 """;
 
         addUserMessage(messages, "How do I solve 5x+3=2 for x?");
-        String response = chat(messages, systemPrompt, null);
+        String response = chat(messages, systemPrompt, null, null);
         System.out.println(response);
     }
 }

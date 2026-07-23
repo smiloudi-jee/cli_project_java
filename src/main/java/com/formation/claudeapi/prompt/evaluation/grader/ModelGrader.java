@@ -1,10 +1,10 @@
-package com.formation.claudeapi.prompt.system.eval.grader;
+package com.formation.claudeapi.prompt.evaluation.grader;
 
 import com.anthropic.models.messages.MessageParam;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formation.claudeapi.AbstractClaudeConversation;
-import com.formation.claudeapi.prompt.system.eval.pipeline.TestCase;
+import com.formation.claudeapi.prompt.evaluation.pipeline.TestCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class ModelGrader extends AbstractClaudeConversation {
         addUserMessage(messages, evalPrompt);
         addAssistantMessage(messages, "```json");
 
-        String evalText = chat(messages, null, List.of("```"));
+        String evalText = chat(messages, null, List.of("```"), null);
 
         try {
             return MAPPER.readValue(evalText, ModelGrade.class);

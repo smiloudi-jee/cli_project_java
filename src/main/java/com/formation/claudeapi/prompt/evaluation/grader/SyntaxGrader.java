@@ -1,8 +1,8 @@
-package com.formation.claudeapi.prompt.system.eval.grader;
+package com.formation.claudeapi.prompt.evaluation.grader;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.formation.claudeapi.prompt.system.eval.pipeline.TestCase;
+import com.formation.claudeapi.prompt.evaluation.pipeline.TestCase;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 

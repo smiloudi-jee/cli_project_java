@@ -1,8 +1,8 @@
-package com.formation.claudeapi.prompt.system.eval.pipeline;
+package com.formation.claudeapi.prompt.evaluation.pipeline;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.formation.claudeapi.prompt.system.eval.grader.ModelGrader;
-import com.formation.claudeapi.prompt.system.eval.grader.SyntaxGrader;
+import com.formation.claudeapi.prompt.evaluation.grader.ModelGrader;
+import com.formation.claudeapi.prompt.evaluation.grader.SyntaxGrader;
 
 /**
  * Un cas de test du dataset d'évaluation.

@@ -54,13 +54,13 @@ public class FirstConversations extends AbstractClaudeConversation {
         List<MessageParam> messages = new ArrayList<>();
 
         addUserMessage(messages, "Define quantum computing in one sentence");
-        String firstResponse = chat(messages, null, null);
+        String firstResponse = chat(messages, null, null, null);
         System.out.println(firstResponse);
 
         addAssistantMessage(messages, firstResponse);
         addUserMessage(messages, "Write another sentence");
 
-        String secondResponse = chat(messages, null, null);
+        String secondResponse = chat(messages, null, null, null);
         System.out.println(secondResponse);
 
     }
@@ -81,7 +81,7 @@ public class FirstConversations extends AbstractClaudeConversation {
             addUserMessage(messages, userInput);
 
             // 2. Call the API
-            String responseText = chat(messages, null, null);
+            String responseText = chat(messages, null, null, null);
 
             // 3. Add generated text to the list of messages
             addAssistantMessage(messages, responseText);

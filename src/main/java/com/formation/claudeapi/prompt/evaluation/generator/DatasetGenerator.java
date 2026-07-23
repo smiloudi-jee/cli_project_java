@@ -1,4 +1,4 @@
-package com.formation.claudeapi.prompt.system.eval.generator;
+package com.formation.claudeapi.prompt.evaluation.generator;
 
 import com.anthropic.models.messages.MessageParam;
 import com.anthropic.models.messages.Model;
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formation.claudeapi.AbstractClaudeConversation;
-import com.formation.claudeapi.prompt.system.eval.pipeline.TestCase;
+import com.formation.claudeapi.prompt.evaluation.pipeline.TestCase;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -56,7 +56,7 @@ public class DatasetGenerator extends AbstractClaudeConversation {
         addUserMessage(messages, prompt);
         addAssistantMessage(messages, "```json");
 
-        String text = chat(messages, null, List.of("```"));
+        String text = chat(messages, null, List.of("```"), null);
 
         try {
             return MAPPER.readValue(text, new TypeReference<List<TestCase>>() {});

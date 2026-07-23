@@ -1,8 +1,8 @@
-package com.formation.claudeapi.prompt.system.eval.pipeline;
+package com.formation.claudeapi.prompt.evaluation.pipeline;
 
-import com.formation.claudeapi.prompt.system.eval.grader.ModelGrade;
-import com.formation.claudeapi.prompt.system.eval.grader.ModelGrader;
-import com.formation.claudeapi.prompt.system.eval.grader.SyntaxGrader;
+import com.formation.claudeapi.prompt.evaluation.grader.ModelGrade;
+import com.formation.claudeapi.prompt.evaluation.grader.ModelGrader;
+import com.formation.claudeapi.prompt.evaluation.grader.SyntaxGrader;
 
 /**
  * Résultat de l'évaluation d'un cas de test.

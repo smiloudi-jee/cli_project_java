@@ -1,0 +1,31 @@
+[ {
+  "prompt_inputs" : {
+    "goal" : "maintain current weight for general fitness",
+    "height" : "175",
+    "weight" : "72",
+    "restrictions" : "none"
+  },
+  "solution_criteria" : [ "Provides a complete 1-day meal plan with breakfast, lunch, dinner, and snacks", "Total daily calories appropriate for maintenance (approximately 2400-2800 calories)", "Includes protein, carbohydrates, and fats in balanced proportions suitable for an athlete" ],
+  "task_description" : "Write a compact, concise 1 day meal plan for a single athlete",
+  "scenario" : "Testing with an average-sized athlete maintaining current weight for general fitness with no dietary restrictions"
+}, {
+  "prompt_inputs" : {
+    "goal" : "weight loss while maintaining endurance running performance",
+    "height" : "158",
+    "weight" : "52",
+    "restrictions" : "lactose intolerant"
+  },
+  "solution_criteria" : [ "Provides breakfast, lunch, dinner, and snacks for 1 day", "Excludes dairy products containing lactose", "Includes appropriate portions for caloric deficit suitable for petite athlete" ],
+  "task_description" : "Write a compact, concise 1 day meal plan for a single athlete",
+  "scenario" : "Testing with a petite endurance runner focused on weight loss with minimal restrictions (only lactose intolerant)"
+}, {
+  "prompt_inputs" : {
+    "goal" : "muscle gain",
+    "height" : "188",
+    "weight" : "105",
+    "restrictions" : "vegan, gluten-free, nut allergy"
+  },
+  "solution_criteria" : [ "Provides a complete 1-day meal plan with multiple meals", "All foods are vegan, gluten-free, and nut-free", "Meal plan is high in protein suitable for muscle gain" ],
+  "task_description" : "Write a compact, concise 1 day meal plan for a single athlete",
+  "scenario" : "Testing with a heavyweight bodybuilder aiming for muscle gain with multiple dietary restrictions (vegan, gluten-free, nut allergy)"
+} ]

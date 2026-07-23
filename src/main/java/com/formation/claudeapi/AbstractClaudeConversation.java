@@ -37,7 +37,7 @@ public abstract class AbstractClaudeConversation {
                 .build());
     }
 
-    protected static String chat(List<MessageParam> messages, String systemPrompt, List<String> stopSequences) {
+    protected static String chat(List<MessageParam> messages, String systemPrompt, List<String> stopSequences, Double temperature) {
         AnthropicClient client = buildClient();
 
         MessageCreateParams.Builder params = MessageCreateParams.builder()
@@ -52,6 +52,10 @@ public abstract class AbstractClaudeConversation {
         boolean estVideOuNull = stopSequences == null || stopSequences.isEmpty();
         if(!estVideOuNull) {
             params.stopSequences(stopSequences);
+        }
+
+        if (temperature != null) {
+            params.temperature(temperature);
         }
 
         Message messageResponse = client.messages().create(params.build());

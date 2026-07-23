@@ -14,7 +14,7 @@ public class PrefillStopSequenceExercise  extends AbstractClaudeConversation {
 
         addAssistantMessage(messages, "Here are three sample AWS CLI commands:\n" + "```bash");
 
-        String response = chat(messages, null, List.of("```"));
+        String response = chat(messages, null, List.of("```"), null);
 
         System.out.println(response);
     }

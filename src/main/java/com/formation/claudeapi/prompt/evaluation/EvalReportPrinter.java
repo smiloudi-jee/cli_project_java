@@ -1,19 +1,13 @@
-package com.formation.claudeapi.prompt.system.eval;
+package com.formation.claudeapi.prompt.evaluation;
 
-import com.formation.claudeapi.prompt.system.eval.grader.ModelGrade;
-import com.formation.claudeapi.prompt.system.eval.pipeline.EvalResult;
-import com.formation.claudeapi.prompt.system.eval.pipeline.TestCase;
+import com.formation.claudeapi.prompt.evaluation.grader.ModelGrade;
+import com.formation.claudeapi.prompt.evaluation.pipeline.EvalResult;
+import com.formation.claudeapi.prompt.evaluation.pipeline.TestCase;
 
 import java.util.List;
 
 /**
  * Affiche les résultats d'une évaluation dans la console, en clair.
- * <p>
- * {@code PromptEvaluation} imprimait jusqu'ici les résultats via un dump JSON
- * pretty-printé : lisible pour la {@link TestCase} (courte), illisible pour le
- * champ {@code output} (code/JSON/regex multi-lignes noyé dans des "\n" et des
- * guillemets échappés). Ici on imprime chaque champ tel quel, avec de vrais
- * retours à la ligne — un bloc par cas de test, plus un récapitulatif global.
  */
 public class EvalReportPrinter {
 

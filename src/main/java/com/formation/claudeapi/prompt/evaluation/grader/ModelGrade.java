@@ -1,6 +1,6 @@
-package com.formation.claudeapi.prompt.system.eval.grader;
+package com.formation.claudeapi.prompt.evaluation.grader;
 
-import com.formation.claudeapi.prompt.system.eval.pipeline.TestCase;
+import com.formation.claudeapi.prompt.evaluation.pipeline.TestCase;
 
 import java.util.List;
 

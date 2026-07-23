@@ -1,11 +1,11 @@
-package com.formation.claudeapi.prompt.system.eval;
+package com.formation.claudeapi.prompt.evaluation;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formation.claudeapi.AbstractClaudeConversation;
-import com.formation.claudeapi.prompt.system.eval.pipeline.EvalPipeline;
-import com.formation.claudeapi.prompt.system.eval.pipeline.EvalResult;
-import com.formation.claudeapi.prompt.system.eval.pipeline.TestCase;
+import com.formation.claudeapi.prompt.evaluation.pipeline.EvalPipeline;
+import com.formation.claudeapi.prompt.evaluation.pipeline.EvalResult;
+import com.formation.claudeapi.prompt.evaluation.pipeline.TestCase;
 
 import java.io.IOException;
 import java.io.InputStream;
