@@ -59,7 +59,7 @@ public class ModelGrader extends AbstractClaudeConversation {
         addUserMessage(messages, evalPrompt);
         addAssistantMessage(messages, "```json");
 
-        String evalText = chat(messages, null, List.of("```"), null);
+        String evalText = chat(messages, null, List.of("```"), null, null);
 
         try {
             return MAPPER.readValue(evalText, ModelGrade.class);

@@ -33,7 +33,7 @@ public class FirstStructuredJsonData extends AbstractClaudeConversation {
         addUserMessage(messages, prompt);
         addAssistantMessage(messages, "```json");
 
-        String response = chat(messages, null, List.of("```"), null);
+        String response = chat(messages, null, List.of("```"), null, null);
 
         System.out.println(response);
     }

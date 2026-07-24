@@ -172,7 +172,7 @@ public class PromptEngineeringBaseline extends AbstractClaudeConversation {
         List<MessageParam> messages = new ArrayList<>();
         addUserMessage(messages, prompt);
 
-        return chat(messages, null, null, null);
+        return chat(messages, null, null, null, null);
     }
 
     public static void main(String[] args) {

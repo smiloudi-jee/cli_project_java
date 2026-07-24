@@ -132,7 +132,7 @@ public class PromptEvaluator extends AbstractClaudeConversation {
         addUserMessage(messages, renderedPrompt);
         addAssistantMessage(messages, "```json");
 
-        String text = chat(messages, systemPrompt, List.of("```"), 1.0);
+        String text = chat(messages, systemPrompt, List.of("```"), 1.0, null);
 
         try {
             return MAPPER.readValue(text, new TypeReference<List<String>>() {});
@@ -235,7 +235,7 @@ public class PromptEvaluator extends AbstractClaudeConversation {
         addUserMessage(messages, renderedPrompt);
         addAssistantMessage(messages, "```json");
 
-        String text = chat(messages, systemPrompt, List.of("```"), 0.7);
+        String text = chat(messages, systemPrompt, List.of("```"), 0.7, null);
 
         try {
             TestCase parsed = MAPPER.readValue(text, TestCase.class);
@@ -377,7 +377,7 @@ public class PromptEvaluator extends AbstractClaudeConversation {
         addUserMessage(messages, evalPrompt);
         addAssistantMessage(messages, "```json");
 
-        String evalText = chat(messages, null, List.of("```"), 0.0);
+        String evalText = chat(messages, null, List.of("```"), 0.0, null);
 
         try {
             return MAPPER.readValue(evalText, ModelGrade.class);

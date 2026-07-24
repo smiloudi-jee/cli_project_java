@@ -56,7 +56,7 @@ public class DatasetGenerator extends AbstractClaudeConversation {
         addUserMessage(messages, prompt);
         addAssistantMessage(messages, "```json");
 
-        String text = chat(messages, null, List.of("```"), null);
+        String text = chat(messages, null, List.of("```"), null, null);
 
         try {
             return MAPPER.readValue(text, new TypeReference<List<TestCase>>() {});

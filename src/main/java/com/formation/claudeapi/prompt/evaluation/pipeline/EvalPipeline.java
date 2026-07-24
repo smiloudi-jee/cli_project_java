@@ -51,7 +51,7 @@ public class EvalPipeline extends AbstractClaudeConversation {
         addUserMessage(messages, prompt);
         addAssistantMessage(messages, "```code");
 
-        return chat(messages, null, List.of("```"), null);
+        return chat(messages, null, List.of("```"), null, null);
     }
 
     /**
