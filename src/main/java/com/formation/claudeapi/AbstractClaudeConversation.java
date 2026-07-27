@@ -9,9 +9,13 @@ import com.anthropic.models.messages.MessageParam;
 import com.anthropic.models.messages.Model;
 import com.anthropic.models.messages.Tool;
 import com.anthropic.models.messages.ToolUnion;
+import com.formation.claudeapi.rag.ChunkingDemo;
 import com.networknt.schema.utils.Strings;
 import io.github.cdimascio.dotenv.Dotenv;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public abstract class AbstractClaudeConversation {
@@ -40,31 +44,26 @@ public abstract class AbstractClaudeConversation {
                 .build());
     }
 
-    /** Rejoue la réponse brute de Claude (texte et/ou tool_use) comme tour "assistant". */
     protected static void addAssistantMessage(List<MessageParam> messages, Message message) {
         messages.add(message.toParam());
     }
 
-    /** Ajoute un tour "user" construit à partir de blocs de contenu (ex. des tool_result). */
     protected static void addUserMessage(List<MessageParam> messages, List<ContentBlockParam> content) {
         messages.add(MessageParam.builder()
-                .role(MessageParam.Role.USER)
-                .content(MessageParam.Content.ofBlockParams(content))
-                .build());
+            .role(MessageParam.Role.USER)
+            .content(MessageParam.Content.ofBlockParams(content))
+            .build());
     }
 
-    protected static String chat(
-            List<MessageParam> messages,
-            String systemPrompt,
-            List<String> stopSequences,
-            Double temperature,
-            List<Tool> tools) {
+    protected static String chat(List<MessageParam> messages, String systemPrompt, List<String> stopSequences,
+        Double temperature, List<Tool> tools) {
+
         AnthropicClient client = buildClient();
 
         MessageCreateParams.Builder params = MessageCreateParams.builder()
-                .model(model)
-                .maxTokens(MAX_TOKENS)
-                .messages(messages);
+            .model(model)
+            .maxTokens(MAX_TOKENS)
+            .messages(messages);
 
         if(!Strings.isBlank(systemPrompt)) {
             params.system(systemPrompt);
@@ -87,9 +86,7 @@ public abstract class AbstractClaudeConversation {
         return messageResponse.content().getFirst().asText().text();
     }
 
-    protected static Message chatWithTool(
-            List<MessageParam> messages,
-            List<Tool> tools) {
+    protected static Message chatWithTool(List<MessageParam> messages, List<Tool> tools) {
 
         AnthropicClient client = buildClient();
 
@@ -103,5 +100,17 @@ public abstract class AbstractClaudeConversation {
         }
 
         return client.messages().create(params.build());
+    }
+
+    protected static String readReport() throws IOException {
+
+        String REPORT_RESOURCE_PATH = "/rag/report.md";
+
+        try (InputStream is = ChunkingDemo.class.getResourceAsStream(REPORT_RESOURCE_PATH)) {
+            if (is == null) {
+                throw new IOException("Ressource introuvable dans le classpath : " + REPORT_RESOURCE_PATH);
+            }
+            return new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        }
     }
 }
