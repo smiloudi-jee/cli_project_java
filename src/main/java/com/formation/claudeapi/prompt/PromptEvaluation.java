@@ -1,8 +1,9 @@
-package com.formation.claudeapi.prompt.evaluation;
+package com.formation.claudeapi.prompt;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formation.claudeapi.AbstractClaudeConversation;
+import com.formation.claudeapi.prompt.evaluation.EvalReportPrinter;
 import com.formation.claudeapi.prompt.evaluation.pipeline.EvalPipeline;
 import com.formation.claudeapi.prompt.evaluation.pipeline.EvalResult;
 import com.formation.claudeapi.prompt.evaluation.pipeline.TestCase;

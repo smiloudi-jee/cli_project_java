@@ -1,7 +1,8 @@
-package com.formation.claudeapi.prompt.engineering;
+package com.formation.claudeapi.prompt;
 
 import com.anthropic.models.messages.MessageParam;
 import com.formation.claudeapi.AbstractClaudeConversation;
+import com.formation.claudeapi.prompt.engineering.PromptEvaluator;
 
 import java.util.ArrayList;
 import java.util.List;
