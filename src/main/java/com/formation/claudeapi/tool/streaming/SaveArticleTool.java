@@ -8,10 +8,8 @@ import java.util.Map;
 
 /**
  * Tool factice utilisé uniquement pour observer le streaming des arguments JSON
- * (section "Fine grained tool calling"). Reprend la structure imbriquée de l'exemple
- * du cours (abstract + meta.word_count + meta.review) : volontairement pas exécuté
- * réellement ici — le but de la démo est d'observer les événements de streaming, pas
- * le résultat du tool.
+ * (section "Fine grained tool calling"). Reprend l'exemple du cours.
+ * Le but de la démo est d'observer les événements de streaming, pas le résultat du tool.
  */
 public class SaveArticleTool {
 

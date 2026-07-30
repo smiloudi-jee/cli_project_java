@@ -2,13 +2,7 @@ package com.formation.claudeapi;
 
 import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
-import com.anthropic.models.messages.ContentBlockParam;
-import com.anthropic.models.messages.Message;
-import com.anthropic.models.messages.MessageCreateParams;
-import com.anthropic.models.messages.MessageParam;
-import com.anthropic.models.messages.Model;
-import com.anthropic.models.messages.Tool;
-import com.anthropic.models.messages.ToolUnion;
+import com.anthropic.models.messages.*;
 import com.formation.claudeapi.rag.ChunkingDemo;
 import com.networknt.schema.utils.Strings;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -30,10 +24,28 @@ public abstract class AbstractClaudeConversation {
                 .build();
     }
 
-    public static void addUserMessage(List<MessageParam> messages, String text) {
+    /**
+     * Construit un bloc "text" pour un message utilisateur.
+     */
+    protected static ContentBlockParam text(String text) {
+        return ContentBlockParam.ofText(
+            TextBlockParam.builder()
+                .text(text)
+                .build()
+        );
+    }
+
+    protected static void addUserMessage(List<MessageParam> messages, String text) {
         messages.add(MessageParam.builder()
                 .role(MessageParam.Role.USER)
                 .content(MessageParam.Content.ofString(text))
+                .build());
+    }
+
+    protected static void addUserMessage(List<MessageParam> messages, List<ContentBlockParam> content) {
+        messages.add(MessageParam.builder()
+                .role(MessageParam.Role.USER)
+                .content(MessageParam.Content.ofBlockParams(content))
                 .build());
     }
 
@@ -46,13 +58,6 @@ public abstract class AbstractClaudeConversation {
 
     protected static void addAssistantMessage(List<MessageParam> messages, Message message) {
         messages.add(message.toParam());
-    }
-
-    protected static void addUserMessage(List<MessageParam> messages, List<ContentBlockParam> content) {
-        messages.add(MessageParam.builder()
-            .role(MessageParam.Role.USER)
-            .content(MessageParam.Content.ofBlockParams(content))
-            .build());
     }
 
     protected static String chat(List<MessageParam> messages, String systemPrompt, List<String> stopSequences,
@@ -113,4 +118,16 @@ public abstract class AbstractClaudeConversation {
             return new String(is.readAllBytes(), StandardCharsets.UTF_8);
         }
     }
+
+    public static byte[] readResourceBytes(Class<?> anchor, String resourcePath) {
+        try (InputStream is = anchor.getResourceAsStream(resourcePath)) {
+            if (is == null) {
+                throw new IOException("Ressource introuvable dans le classpath : " + resourcePath);
+            }
+            return is.readAllBytes();
+        } catch (IOException e) {
+            throw new RuntimeException("Impossible de lire l'image " + resourcePath, e);
+        }
+    }
+
 }
