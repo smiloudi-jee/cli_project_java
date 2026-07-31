@@ -23,6 +23,8 @@ import io.modelcontextprotocol.spec.McpSchema.TextContent;
 import io.modelcontextprotocol.spec.McpSchema.TextResourceContents;
 import io.modelcontextprotocol.spec.McpSchema.Tool;
 
+import com.formation.mcpchat.tools.DocumentConverter;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -71,6 +73,8 @@ public class McpServerApp {
         buildToolReadDocument(server);
         // Tool pour modifier un document
         buildToolModifyDocument(server);
+        // Tool pour convertir un document (docx/pdf) en Markdown, depuis un chemin de fichier
+        buildToolDocumentPathToMarkdown(server);
 
         // Resource : renvoie tous les identifiants de documents disponibles
         buildResourceListDocIds(server);
@@ -152,6 +156,38 @@ public class McpServerApp {
                     .build();
             }).build();
         server.addTool(modifyDocTool);
+    }
+    // Tool : convertit un document (docx ou pdf) en Markdown, à partir d'un chemin de fichier.
+    // Section de cours "Claude Code in action" :
+    private static void buildToolDocumentPathToMarkdown(McpSyncServer server) {
+        Map<String, Object> schema = Map.of(
+            "type", "object",
+            "properties", Map.of(
+                "file_path", Map.of(
+                    "type", "string",
+                    "description", "Chemin vers le fichier document a convertir (extensions supportées : .docx, .pdf).")),
+            "required", List.of("file_path"));
+
+        SyncToolSpecification documentPathToMarkdownTool = SyncToolSpecification.builder()
+            .tool(Tool.builder("document_path_to_markdown", schema)
+                .description("Lit un document (docx ou pdf) depuis un chemin de fichier et renvoie son contenu converti en Markdown.")
+                .build())
+            .callHandler((exchange, request) -> {
+                String filePath = (String) request.arguments().get("file_path");
+                try {
+                    String markdown = DocumentConverter.documentPathToMarkdown(filePath);
+                    return CallToolResult.builder()
+                        .content(List.of(TextContent.builder(markdown).build()))
+                        .build();
+                } catch (Exception e) {
+                    return CallToolResult.builder()
+                        .content(List.of(TextContent.builder("Erreur : " + e.getMessage()).build()))
+                        .isError(true)
+                        .build();
+                }
+            })
+            .build();
+        server.addTool(documentPathToMarkdownTool);
     }
 
     //---------------------------------------------------------------------
